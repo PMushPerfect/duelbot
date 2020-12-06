@@ -4,7 +4,7 @@ var http = require('http');
 var Router = require('router');
 var finalhandler = require('finalhandler');
 
-client.login(process.env.app_token)
+client.login(process.env.app_token);
 
 var challenge_duel_pattern = /^\!challenge (.*)$/im
 var accept_duel_pattern = /^\!accept (.*)$/im
@@ -69,13 +69,13 @@ client.on('message', message => {
 
 });
 
-var router = Router()
+var router = Router();
 router.get('/', function(req, res) {
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.end('duelbot\n');
 });
 
 var server = http.createServer(function(req, res) {
-  router(req, res, finalhandler(req, res))
-})
+  router(req, res, finalhandler(req, res));
+});
 server.listen(process.env.PORT || 8080);
