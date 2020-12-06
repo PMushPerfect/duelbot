@@ -64,11 +64,11 @@ client.on('message', (message) => {
             if (message.author.id === active_duel.challenger) {
                 message.channel.send('you were the challenger!');
                 message.channel.send(declaration[1]);
-                active_duel.challenger_message == declaration[1];
+                active_duel.challenger_message = declaration[1];
             } else if (message.author.id === active_duel.challenged) {
                 message.channel.send('you were the challenged!');
                 message.channel.send(declaration[1]);
-                active_duel.challenged_message == declaration[1];
+                active_duel.challenged_message = declaration[1];
             }
             if (typeof active_duel.challenger_message !== 'undefined' && typeof active_duel.challenged_message !== 'undefined') {
                 var duel_channel = client.channels.get(active_duel.channel);
