@@ -37,7 +37,8 @@ client.on('message', (message) => {
                         id: message.mentions.users.first().id,
                         allow: ['SEND_MESSAGES']
                     }
-                ]
+                ],
+                parent: '784727948061442078'
             })
             .then((duel_channel) => {
                 var active_duel = duels.find(obj => obj.challenger === message.mentions.users.first().id && obj.challenged === message.author.id);
