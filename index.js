@@ -70,12 +70,16 @@ client.on('message', (message) => {
             if (typeof active_duel.challenger_message !== 'undefined' && typeof active_duel.challenged_message !== 'undefined') {
                 var duel_channel = client.channels.fetch(active_duel.channel);
                 var guild = client.guilds.fetch(active_duel.guild);
-                var challenger_nickname = guild.member(active_duel.challenger);
-                var challenged_nickname = guild.member(active_duel.challenged);
-                duel_channel.send('**' + challenged_nickname + 'Declares:** *' + challenged_message + '*');
-                duel_channel.send('**' + challenger_nickname + 'Declares:** *' + challenger_message + '*');
-                delete active_duel.challenger_message;
-                delete active_duel.challenged_message;
+                guild.members.fetch(active_duel.challenger)
+                .then((challenger_nickname) => {
+                    guild.members.fetch(active_duel.challenged)
+                    .then((challenged_nickname) => {
+                        duel_channel.send('**' + challenged_nickname + 'Declares:** *' + challenged_message + '*');
+                        duel_channel.send('**' + challenger_nickname + 'Declares:** *' + challenger_message + '*');
+                        delete active_duel.challenger_message;
+                        delete active_duel.challenged_message;
+                    });
+                });
             }
         }
     }
