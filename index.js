@@ -68,8 +68,8 @@ client.on('message', (message) => {
                 message.react('✅');
             }
             if (typeof active_duel.challenger_message !== 'undefined' && typeof active_duel.challenged_message !== 'undefined') {
-                var duel_channel = client.channels.get(active_duel.channel);
-                var guild = client.guilds.get(active_duel.guild);
+                var duel_channel = client.channels.fetch(active_duel.channel);
+                var guild = client.guilds.fetch(active_duel.guild);
                 var challenger_nickname = guild.member(active_duel.challenger);
                 var challenged_nickname = guild.member(active_duel.challenged);
                 duel_channel.send('**' + challenged_nickname + 'Declares:** *' + challenged_message + '*');
