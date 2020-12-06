@@ -59,15 +59,10 @@ client.on('message', (message) => {
         if (submit_declaration_pattern.test(message.content)) {
             var declaration = submit_declaration_pattern.exec(message.content);
             var active_duel = duels.find(obj => obj.challenger === message.author.id || obj.challenged === message.author.id && typeof obj.channel !== 'undefined');
-            message.channel.send('duel find done');
             //This assumes that people will only be in one active duel at a time
             if (message.author.id === active_duel.challenger) {
-                message.channel.send('you were the challenger!');
-                message.channel.send(declaration[1]);
                 active_duel.challenger_message = declaration[1];
             } else if (message.author.id === active_duel.challenged) {
-                message.channel.send('you were the challenged!');
-                message.channel.send(declaration[1]);
                 active_duel.challenged_message = declaration[1];
             }
             if (typeof active_duel.challenger_message !== 'undefined' && typeof active_duel.challenged_message !== 'undefined') {
@@ -79,10 +74,6 @@ client.on('message', (message) => {
                 duel_channel.send('**' + challenger_nickname + 'Declares:** *' + challenger_message + '*');
                 delete active_duel.challenger_message;
                 delete active_duel.challenged_message;
-            } else if (typeof active_duel.challenger_message == 'undefined') {
-                message.channel.send('challenger message still undefined');
-            } else if (typeof active_duel.challenged_message == 'undefined') {
-                message.channel.send('challenged message still undefined');
             }
         }
     }
