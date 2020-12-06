@@ -28,7 +28,7 @@ client.on('message', (message) => {
             message.react('✅');
         }
         if (accept_duel_pattern.test(message.content)) {
-            server.channels.create('duel-' + message.member.nickname + '-' + message.mentions.members.first().nickname, {
+            guild.channels.create('duel-' + message.member.nickname + '-' + message.mentions.members.first().nickname, {
                 permissionOverwrites: [
                     {
                       id: message.author.id,
