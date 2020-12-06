@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 var http = require('http');
 var Router = require('router');
+var finalhandler = require('finalhandler');
 
 client.login(process.env.app_token)
 
