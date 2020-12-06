@@ -5,6 +5,7 @@ client.login(process.env.app_token)
 
 var challenge_duel_pattern = /^\!challenge (.*)$/im
 var accept_duel_pattern = /^\!accept (.*)$/im
+var submit_declaration_pattern = /^\!declare (.*)$/im
 
 var duels = new Array();
 
@@ -15,7 +16,7 @@ client.on('ready', () => {
 client.on('message', message => {
     if (message.channel.type != 'dm') {
         if (challenge_duel_pattern.test(message.content)) {
-            var server = message.guild;
+            var guild = message.guild;
             if (message.mentions.users.array().length > 1) {
                 return;
             }
@@ -37,14 +38,30 @@ client.on('message', message => {
             .then(duel_channel => {
                 var active_duel = duels.find(obj => obj.challenger === message.mentions.users.first().id && obj.challenged === message.author.id);
                 active_duel.channel = duel_channel.id;
+                active_duel.guild = guild.id;
             });
         }
     } else {
-        // this is where we process DM submissions and then post them in the channel.
-        // need a way to distinguish what duel is being submitted to,
-        // sanity check that the user is a participant in the duel,
-        // then if both active_duel.challenger_declaration and active_duel.challenged_declaration are set, post both in channel and clear both of those
-        // this becomes way easier if we can GUARANTEE that a user will only EVER be in one duel at a time, then we just put some restrictions on who can be challenged when
+        if (submit_declaration_pattern.test(message.content)) {
+            var declaration = submit_declaration_pattern.exec(message.content)[1];
+            var active_duel = duels.find(obj => obj.challenger === message.author.id || obj.challenged === message.author.id && typeof obj.channel !== 'undefined');
+            //This assumes that people will only be in one active duel at a time
+            if (message.author.id === active_duel.challenger) {
+                active_duel.challenger_message == declaration;
+            } else if (message.author.id === active_duel.challenged) {
+                active_duel.challenged_message == declaration;
+            }
+            if (typeof active_duel.challenger_message !== 'undefined' && typeof active_duel.challenged_message !== 'undefined') {
+                var duel_channel = client.channels.get(active_duel.channel);
+                var guild = client.guilds.get(active_duel.guild);
+                var challenger_nickname = guild.member(active_duel.challenger);
+                var challenged_nickname = guild.member(active_duel.challenged);
+                duel_channel.send('**' + challenged_nickname + 'Declares:** *' + challenged_message + '*');
+                duel_channel.send('**' + challenger_nickname + 'Declares:** *' + challenger_message + '*');
+                delete active_duel.challenger_message;
+                delete active_duel.challenged_message;
+            }
+        }
     }
 
 });
