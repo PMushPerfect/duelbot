@@ -25,6 +25,7 @@ client.on('message', (message) => {
                 return;
             }
             duels.push({'challenger': message.author.id, 'challenged': message.mentions.users.first().id});
+            message.react('✅');
         }
         if (accept_duel_pattern.test(message.content)) {
             server.channels.create('duel-' + message.member.nickname + '-' + message.mentions.members.first().nickname, {
@@ -41,6 +42,7 @@ client.on('message', (message) => {
                 parent: '784727948061442078'
             })
             .then((duel_channel) => {
+                message.react('✅');
                 var active_duel = duels.find(obj => obj.challenger === message.mentions.users.first().id && obj.challenged === message.author.id);
                 active_duel.channel = duel_channel.id;
                 active_duel.guild = guild.id;
