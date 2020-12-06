@@ -20,14 +20,15 @@ client.on('ready', () => {
 client.on('message', (message) => {
     if (message.channel.type != 'dm') {
         if (challenge_duel_pattern.test(message.content)) {
-            var guild = message.guild;
             if (message.mentions.users.array().length > 1) {
                 return;
             }
             duels.push({'challenger': message.author.id, 'challenged': message.mentions.users.first().id});
+            message.react('785251135950159892');
             message.react('✅');
         }
         if (accept_duel_pattern.test(message.content)) {
+            var guild = message.guild;
             guild.channels.create('duel-' + message.member.nickname + '-' + message.mentions.members.first().nickname, {
                 permissionOverwrites: [
                     {
@@ -42,6 +43,7 @@ client.on('message', (message) => {
                 parent: '784727948061442078'
             })
             .then((duel_channel) => {
+                message.react('785251135950159892');
                 message.react('✅');
                 var active_duel = duels.find(obj => obj.challenger === message.mentions.users.first().id && obj.challenged === message.author.id);
                 active_duel.channel = duel_channel.id;
