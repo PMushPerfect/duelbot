@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+var http = require('http');
+var Router = require('router');
 
 client.login(process.env.app_token)
 
@@ -65,3 +67,14 @@ client.on('message', message => {
     }
 
 });
+
+var router = Router()
+router.get('/', function(req, res) {
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  res.end('duelbot\n');
+});
+
+var server = http.createServer(function(req, res) {
+  router(req, res, finalhandler(req, res))
+})
+server.listen(process.env.PORT || 8080);
