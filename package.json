@@ -6,7 +6,7 @@
   "author": "Allison <me@ajl.io> (https://ajl.io)",
   "homepage": "https://github.com/aletson/duelbot",
   "engines": {
-    "node": "7.10.0"
+    "node": "12.x"
   },
   "main": "index.js",
   "scripts": {
