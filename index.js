@@ -19,8 +19,7 @@ client.on('message', message => {
             if (message.mentions.users.array().length > 1) {
                 return;
             }
-            duels.push({'challenger': message.author.id, 'challenged': message.mentions.users.first().id})
-            );
+            duels.push({'challenger': message.author.id, 'challenged': message.mentions.users.first().id});
         }
         if (accept_duel_pattern.test(message.content)) {
             server.channels.create('duel-' + message.member.nickname + '-' + message.mentions.members.first().nickname, {
@@ -38,7 +37,7 @@ client.on('message', message => {
             .then(duel_channel => {
                 var active_duel = duels.find(obj => obj.challenger === message.mentions.users.first().id && obj.challenged === message.author.id);
                 active_duel.channel = duel_channel.id;
-            }
+            });
         }
     }
 });
