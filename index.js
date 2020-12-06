@@ -39,5 +39,12 @@ client.on('message', message => {
                 active_duel.channel = duel_channel.id;
             });
         }
+    } else {
+        // this is where we process DM submissions and then post them in the channel.
+        // need a way to distinguish what duel is being submitted to,
+        // sanity check that the user is a participant in the duel,
+        // then if both active_duel.challenger_declaration and active_duel.challenged_declaration are set, post both in channel and clear both of those
+        // this becomes way easier if we can GUARANTEE that a user will only EVER be in one duel at a time, then we just put some restrictions on who can be challenged when
     }
+
 });
