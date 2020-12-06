@@ -10,6 +10,7 @@ client.login(process.env.app_token);
 var challenge_duel_pattern = /^\!challenge (.*)$/im
 var accept_duel_pattern = /^\!accept (.*)$/im
 var submit_declaration_pattern = /^\!declare (.*)$/im
+var end_duel_pattern = /^\!endduel$/im
 
 var duels = [];
 
@@ -50,15 +51,24 @@ client.on('message', (message) => {
                 active_duel.guild = guild.id;
             });
         }
+        if (end_duel_pattern.test(message.content)) {
+            var active_duel = duels.find(obj => obj.channel === message.channel.id);
+            delete active_duel;
+        }
     } else {
         if (submit_declaration_pattern.test(message.content)) {
-            var declaration = submit_declaration_pattern.exec(message.content)[1];
+            var declaration = submit_declaration_pattern.exec(message.content);
             var active_duel = duels.find(obj => obj.challenger === message.author.id || obj.challenged === message.author.id && typeof obj.channel !== 'undefined');
+            message.channel.send('duel find done');
             //This assumes that people will only be in one active duel at a time
             if (message.author.id === active_duel.challenger) {
-                active_duel.challenger_message == declaration;
+                message.channel.send('you were the challenger!');
+                message.channel.send(declaration[1]);
+                active_duel.challenger_message == declaration[1];
             } else if (message.author.id === active_duel.challenged) {
-                active_duel.challenged_message == declaration;
+                message.channel.send('you were the challenged!');
+                message.channel.send(declaration[1]);
+                active_duel.challenged_message == declaration[1];
             }
             if (typeof active_duel.challenger_message !== 'undefined' && typeof active_duel.challenged_message !== 'undefined') {
                 var duel_channel = client.channels.get(active_duel.channel);
