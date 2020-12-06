@@ -62,8 +62,10 @@ client.on('message', (message) => {
             //This assumes that people will only be in one active duel at a time
             if (message.author.id === active_duel.challenger) {
                 active_duel.challenger_message = declaration[1];
+                message.react('✅');
             } else if (message.author.id === active_duel.challenged) {
                 active_duel.challenged_message = declaration[1];
+                message.react('✅');
             }
             if (typeof active_duel.challenger_message !== 'undefined' && typeof active_duel.challenged_message !== 'undefined') {
                 var duel_channel = client.channels.get(active_duel.channel);
