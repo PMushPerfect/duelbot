@@ -79,6 +79,10 @@ client.on('message', (message) => {
                 duel_channel.send('**' + challenger_nickname + 'Declares:** *' + challenger_message + '*');
                 delete active_duel.challenger_message;
                 delete active_duel.challenged_message;
+            } else if (typeof active_duel.challenger_message == 'undefined') {
+                message.channel.send('challenger message still undefined');
+            } else if (typeof active_duel.challenged_message == 'undefined') {
+                message.channel.send('challenged message still undefined');
             }
         }
     }
