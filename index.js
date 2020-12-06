@@ -20,7 +20,6 @@ client.on('ready', () => {
 client.on('message', (message) => {
     if (message.channel.type != 'dm') {
         if (challenge_duel_pattern.test(message.content)) {
-            var guild = message.guild;
             if (message.mentions.users.array().length > 1) {
                 return;
             }
@@ -28,6 +27,7 @@ client.on('message', (message) => {
             message.react('✅');
         }
         if (accept_duel_pattern.test(message.content)) {
+            var guild = message.guild;
             guild.channels.create('duel-' + message.member.nickname + '-' + message.mentions.members.first().nickname, {
                 permissionOverwrites: [
                     {
