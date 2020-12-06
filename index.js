@@ -14,7 +14,7 @@ var duels = new Array();
 
 client.on('ready', () => {
   client.user.setActivity("It's time to duel!");
-})
+});
 
 client.on('message', message => {
     if (message.channel.type != 'dm') {
